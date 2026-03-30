@@ -20,12 +20,11 @@
   --composer-send-bg: #1a1a1a;
   --composer-send-fg: #ffffff;
   --composer-send-hover-bg: #333333;
-  --inbox-max-width: 620px;
   --radius: 6px;
   --nav-height: 56px;
   --hairline: 0.5px;
-  --shell-max: 1120px;
-  --shell-pad-x: 2rem;
+  --shell-max: 1100px;
+  --shell-pad-x: 48px;
   /* Space from a section edge (or major block) to the next section kicker */
   --section-start-pad: 1.35rem;
   --status-active-bg: #d1fae5;
@@ -46,6 +45,12 @@
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   color-scheme: light dark;
+}
+
+@media (max-width: 768px) {
+  :root {
+    --shell-pad-x: 24px;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -82,6 +87,17 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -94,6 +110,9 @@ body {
 
 #root {
   min-height: 100svh;
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
 }

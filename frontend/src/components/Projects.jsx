@@ -24,7 +24,7 @@ function statusClass(status) {
 export default function Projects() {
   return (
     <section id="projects" className="section-projects">
-      <div className="shell section-projects-inner">
+      <div className="shell">
         <h2 className="section-kicker">Projects</h2>
         <div className="projects-grid">
           {projects.map((project) => (

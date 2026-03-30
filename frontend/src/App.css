@@ -5,22 +5,28 @@
   display: flex;
   flex-direction: column;
   min-height: 0;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: clip;
+  padding-top: var(--nav-height);
 }
 
+/* Shared content container — max-width 1100px, centered, 48px gutters.
+   Used by hero, inbox, and projects. NOT used by the nav. */
 .shell {
+  box-sizing: border-box;
   width: 100%;
   max-width: var(--shell-max);
   margin: 0 auto;
-  padding-left: var(--shell-pad-x);
-  padding-right: var(--shell-pad-x);
+  padding: 0 var(--shell-pad-x);
+  min-width: 0;
 }
 
-/* Section titles: CURRENTLY, INBOX, RECENT MESSAGES, PROJECTS (via uppercase) */
+/* Section labels: CURRENTLY, INBOX, RECENT MESSAGES, PROJECTS */
 .section-kicker {
-  display: inline-block;
-  max-width: 100%;
-  margin: 0;
-  margin-bottom: 16px;
+  display: block;
+  width: 100%;
+  margin: 0 0 16px;
   padding: 0;
   font-size: 13px;
   font-weight: 600;
@@ -28,12 +34,6 @@
   text-transform: uppercase;
   line-height: 1.2;
   color: var(--section-label-text);
-}
-
-/* Space above first label in inbox / projects (replaces section padding-top so all blocks match) */
-.inbox-wrap > .section-kicker:first-child,
-.section-projects-inner > .section-kicker:first-child {
-  margin-top: var(--section-start-pad);
 }
 
 .section-lede {
@@ -46,22 +46,25 @@
 
 /* ─── Nav ─────────────────────────────────────────────── */
 
+/* Full browser width — no shell, no max-width */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: var(--bg);
   border-bottom: var(--hairline) solid var(--border);
 }
 
-.nav {
+.nav-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: var(--nav-height);
-  max-width: var(--shell-max);
-  margin: 0 auto;
-  padding: 0 var(--shell-pad-x);
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
 }
 
 .nav-brand {
@@ -96,27 +99,52 @@
   background: var(--bg-subtle);
 }
 
-@media (max-width: 600px) {
-  :root {
-    --shell-pad-x: 1.25rem;
-  }
-}
-
 /* ─── Hero ────────────────────────────────────────────── */
 
 .hero {
-  flex: 0 0 auto;
-  display: flex;
-  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
   border-bottom: var(--hairline) solid var(--border);
-  padding: 48px 0 28px;
+  padding: 48px 0 40px;
+  scroll-margin-top: var(--nav-height);
 }
 
+/* Two equal columns inside the shared container */
 .hero-inner {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 2rem 3rem;
   align-items: start;
+}
+
+.hero-intro,
+.currently-panel {
+  min-width: 0;
+}
+
+/* Avatar + text side by side inside hero-intro */
+.hero-identity {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.hero-avatar {
+  flex-shrink: 0;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: #1E7A56;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-text {
+  min-width: 0;
 }
 
 .hero-name {
@@ -135,7 +163,7 @@
   margin: 0;
 }
 
-/* Currently (hero column) */
+/* Currently panel (right hero column) */
 
 .currently-panel {
   padding-top: 0.25rem;
@@ -195,29 +223,32 @@
   }
 }
 
-/* ─── Inbox (composer + feed) ─────────────────────────── */
+/* ─── Inbox ────────────────────────────────────────────── */
 
 .section-inbox {
-  background: var(--bg);
-  border-bottom: var(--hairline) solid var(--border);
-  padding: 0 0 2.5rem;
-}
-
-.section-inbox-inner {
-  max-width: none;
-}
-
-.inbox-wrap {
+  background: var(--input-bg);
+  box-sizing: border-box;
   width: 100%;
-  max-width: var(--inbox-max-width);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
+  border-bottom: var(--hairline) solid var(--border);
+  padding: 48px 0;
+  scroll-margin-top: var(--nav-height);
+}
+
+/* Two columns: left = composer, right = feed */
+.inbox-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 2rem 3rem;
+  align-items: start;
+}
+
+.inbox-left,
+.inbox-right {
+  min-width: 0;
 }
 
 .inbox-intro {
-  margin: 0 0 var(--section-start-pad);
+  margin: 0 0 1.25rem;
   font-size: 0.9375rem;
   color: var(--text-primary);
   line-height: 1.55;
@@ -226,6 +257,10 @@
 /* Composer */
 
 .composer-card {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   background: var(--composer-surface);
   border: 1px solid var(--composer-card-border);
   border-radius: 12px;
@@ -234,7 +269,9 @@
 
 .composer-textarea {
   display: block;
+  box-sizing: border-box;
   width: 100%;
+  min-width: 0;
   min-height: 80px;
   margin: 0;
   padding: 1rem 1.25rem;
@@ -261,6 +298,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  min-width: 0;
   padding: 0.5rem 1rem 0.5rem 1.25rem;
   border-top: 1px solid var(--composer-footer-divider);
 }
@@ -350,16 +388,26 @@
   color: var(--text-heading);
 }
 
-/* Feed */
-
-/* After composer: same top inset as INBOX / PROJECTS; bottom gap from .section-kicker */
-.feed-title {
-  margin-top: var(--section-start-pad);
+/* Feed subtitle — lowercase, muted, not a section header */
+.feed-subtitle {
+  display: block;
+  margin: 0 0 12px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  color: var(--text-muted);
+  line-height: 1.2;
 }
 
+/* Feed */
+
 .feed-empty-state {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   margin: 0;
-  padding: 1.25rem 1.25rem;
+  padding: 1.25rem;
   border: 1px solid var(--composer-card-border);
   border-radius: 12px;
   background: var(--composer-surface);
@@ -373,6 +421,13 @@
   color: var(--text-muted);
 }
 
+@media (max-width: 768px) {
+  .inbox-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
 @media (max-width: 480px) {
   .composer-footer {
     flex-wrap: wrap;
@@ -383,16 +438,19 @@
   }
 }
 
-/* ─── Projects ────────────────────────────────────────── */
+/* ─── Projects ─────────────────────────────────────────── */
 
 .section-projects {
-  padding: 0 0 2rem;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 48px 0 2rem;
   flex: 1;
+  scroll-margin-top: var(--nav-height);
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.85rem;
 }
 
@@ -496,5 +554,56 @@
 }
 
 .btn-text:hover {
+  color: var(--text-heading);
+}
+
+.live-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #1E7A56;
+  margin-left: 6px;
+  vertical-align: middle;
+  animation: livepulse 2s ease-in-out infinite;
+}
+
+@keyframes livepulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* ─── Footer ──────────────────────────────────────────── */
+
+.site-footer {
+  border-top: 0.5px solid var(--border);
+  background: var(--bg);
+}
+
+.footer-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.footer-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.footer-links a:hover {
   color: var(--text-heading);
 }

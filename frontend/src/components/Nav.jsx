@@ -1,4 +1,5 @@
 const links = [
+  { href: '#hero', label: 'Home' },
   { href: '#inbox', label: 'Inbox' },
   { href: '#projects', label: 'Projects' },
 ]
@@ -6,7 +7,7 @@ const links = [
 export default function Nav() {
   return (
     <header className="site-header">
-      <nav className="nav" aria-label="Primary">
+      <nav className="nav nav-inner" aria-label="Primary">
         <a href="#hero" className="nav-brand">brockhusk</a>
         <ul className="nav-links">
           {links.map(({ href, label }) => (

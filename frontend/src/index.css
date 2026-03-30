@@ -1,0 +1,102 @@
+:root {
+  --bg: #ffffff;
+  --bg-subtle: #f7f7f5;
+  --text: #3d3d3d;
+  --text-muted: #888;
+  --text-secondary: #555;
+  --text-heading: #111;
+  --border: #e8e8e5;
+  --accent: #1a1a1a;
+  --accent-hover: #333;
+  --tag-bg: #f0efec;
+  --input-bg: #fafaf8;
+  --composer-footer-divider: #e0e0e0;
+  --composer-surface: #ffffff;
+  --composer-send-bg: #1a1a1a;
+  --composer-send-fg: #ffffff;
+  --composer-send-hover-bg: #333333;
+  --inbox-max-width: 620px;
+  --radius: 6px;
+  --nav-height: 56px;
+  --hairline: 0.5px;
+  --shell-max: 1120px;
+  --shell-pad-x: 2rem;
+  --status-active-bg: #d1fae5;
+  --status-active-fg: #065f46;
+  --status-in-progress-bg: #fef3c7;
+  --status-in-progress-fg: #92400e;
+  --status-complete-bg: #e0e7ff;
+  --status-complete-fg: #3730a3;
+  --status-archived-bg: var(--tag-bg);
+  --status-archived-fg: var(--text-muted);
+
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #111110;
+    --bg-subtle: #1a1a18;
+    --text: #a8a8a0;
+    --text-muted: #666;
+    --text-secondary: #aeaea6;
+    --text-heading: #eeeeea;
+    --border: #2a2a28;
+    --accent: #eeeeea;
+    --accent-hover: #fff;
+    --tag-bg: #222220;
+    --input-bg: #1a1a18;
+    --composer-footer-divider: #3a3a38;
+    --composer-surface: #1a1a18;
+    --composer-send-bg: #0d0d0c;
+    --composer-send-fg: #faf8f5;
+    --composer-send-hover-bg: #2a2622;
+    --status-active-bg: #064e3b;
+    --status-active-fg: #6ee7b7;
+    --status-in-progress-bg: #451a03;
+    --status-in-progress-fg: #fcd34d;
+    --status-complete-bg: #1e1b4b;
+    --status-complete-fg: #a5b4fc;
+    --status-archived-bg: var(--tag-bg);
+    --status-archived-fg: var(--text-muted);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3 {
+  color: var(--text-heading);
+  font-weight: 600;
+  margin: 0;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}

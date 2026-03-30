@@ -7,8 +7,7 @@ export default function Hero() {
         <div className="hero-intro">
           <h1 className="hero-name">Brock Huskisson</h1>
           <p className="hero-tagline">
-            Sales Engineer at Datadog. The guy who makes sure what&apos;s in the
-            contract actually works.
+            Part engineer, part salesperson. I prove the software works before anyone signs anything.
           </p>
         </div>
         <CurrentlyPanel />

@@ -2,36 +2,6 @@ import { useState } from 'react'
 
 const INITIAL = { name: '', message: '' }
 
-const MOCK_FEED = [
-  {
-    id: '1',
-    name: 'Jordan',
-    message:
-      'Finally cracked open Designing Data-Intensive Applications — thanks for the nudge.',
-    time: '2 days ago',
-  },
-  {
-    id: '2',
-    name: 'Sam',
-    message: 'If you liked Severance, you owe yourself Slow Horses. Trust me.',
-    time: '5 days ago',
-  },
-  {
-    id: '3',
-    name: 'Riley',
-    message:
-      'Say hi back! Your bit on local-first sync made me rethink my side project.',
-    time: '1 week ago',
-  },
-  {
-    id: '4',
-    name: 'Morgan',
-    message:
-      'Friendly argument: tabs over spaces. I will not be taking questions.',
-    time: 'just now',
-  },
-]
-
 export default function Inbox() {
   const [form, setForm] = useState(INITIAL)
   const [submitted, setSubmitted] = useState(false)
@@ -52,10 +22,9 @@ export default function Inbox() {
     <section id="inbox" className="section-inbox">
       <div className="shell section-inbox-inner">
         <div className="inbox-wrap">
-          <h2 className="label-inbox inbox-title">inbox</h2>
+          <h2 className="section-kicker">Inbox</h2>
           <p className="inbox-intro">
-            This is my inbox. Real people, real messages. Leave something and
-            I&apos;ll read it.
+            What are you building? Reading? Grinding through? Say hi or leave something here.
           </p>
 
           {submitted ? (
@@ -102,18 +71,10 @@ export default function Inbox() {
             </form>
           )}
 
-          <h3 className="label-inbox feed-title">recent messages</h3>
-          <ul className="feed-stack">
-            {MOCK_FEED.map((entry) => (
-              <li key={entry.id} className="feed-item">
-                <div className="feed-item-meta">
-                  <span className="feed-item-name">{entry.name}</span>
-                  <span className="feed-item-time">{entry.time}</span>
-                </div>
-                <p className="feed-item-message">{entry.message}</p>
-              </li>
-            ))}
-          </ul>
+          <h3 className="section-kicker feed-title">Recent messages</h3>
+          <div className="feed-empty-state" role="status">
+            <p>No messages yet. Be the first.</p>
+          </div>
         </div>
       </div>
     </section>

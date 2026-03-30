@@ -15,26 +15,25 @@
   padding-right: var(--shell-pad-x);
 }
 
-.label-upper {
-  font-size: 0.6875rem;
+/* Section titles: CURRENTLY, INBOX, RECENT MESSAGES, PROJECTS (via uppercase) */
+.section-kicker {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0;
+  margin-bottom: 16px;
+  padding: 0;
+  font-size: 13px;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin: 0;
+  line-height: 1.2;
+  color: var(--section-label-text);
 }
 
-.section-label {
-  margin-bottom: 0.65rem;
-}
-
-.label-inbox {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: none;
-  color: var(--text-muted);
-  margin: 0;
+/* Space above first label in inbox / projects (replaces section padding-top so all blocks match) */
+.inbox-wrap > .section-kicker:first-child,
+.section-projects-inner > .section-kicker:first-child {
+  margin-top: var(--section-start-pad);
 }
 
 .section-lede {
@@ -142,10 +141,6 @@
   padding-top: 0.25rem;
 }
 
-.currently-panel-label {
-  margin-bottom: 0.55rem;
-}
-
 .currently-dl {
   margin: 0;
   display: flex;
@@ -172,7 +167,7 @@
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--currently-key);
 }
 
 .currently-row dd {
@@ -205,7 +200,7 @@
 .section-inbox {
   background: var(--bg);
   border-bottom: var(--hairline) solid var(--border);
-  padding: 1rem 0 2.5rem;
+  padding: 0 0 2.5rem;
 }
 
 .section-inbox-inner {
@@ -221,14 +216,10 @@
   align-items: stretch;
 }
 
-.inbox-title {
-  margin-bottom: 0.5rem;
-}
-
 .inbox-intro {
-  margin: 0 0 1.25rem;
+  margin: 0 0 var(--section-start-pad);
   font-size: 0.9375rem;
-  color: var(--text-muted);
+  color: var(--text-primary);
   line-height: 1.55;
 }
 
@@ -236,7 +227,7 @@
 
 .composer-card {
   background: var(--composer-surface);
-  border: var(--hairline) solid var(--border);
+  border: 1px solid var(--composer-card-border);
   border-radius: 12px;
   overflow: hidden;
 }
@@ -261,7 +252,7 @@
 }
 
 .composer-textarea::placeholder {
-  color: var(--text-muted);
+  color: var(--composer-placeholder);
 }
 
 .composer-footer {
@@ -301,7 +292,7 @@
 }
 
 .composer-name::placeholder {
-  color: var(--text-muted);
+  color: var(--composer-placeholder);
 }
 
 .composer-send {
@@ -361,58 +352,25 @@
 
 /* Feed */
 
+/* After composer: same top inset as INBOX / PROJECTS; bottom gap from .section-kicker */
 .feed-title {
-  margin-top: 1.75rem;
-  margin-bottom: 0.65rem;
+  margin-top: var(--section-start-pad);
 }
 
-.feed-stack {
-  list-style: none;
+.feed-empty-state {
   margin: 0;
-  padding: 0;
-  border: var(--hairline) solid var(--border);
+  padding: 1.25rem 1.25rem;
+  border: 1px solid var(--composer-card-border);
   border-radius: 12px;
-  overflow: hidden;
   background: var(--composer-surface);
+  text-align: center;
 }
 
-.feed-item {
-  list-style: none;
+.feed-empty-state p {
   margin: 0;
-  padding: 1rem 1.25rem;
-  border-bottom: var(--hairline) solid var(--border);
-}
-
-.feed-item:last-child {
-  border-bottom: none;
-}
-
-.feed-item-meta {
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.35rem;
-}
-
-.feed-item-name {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-heading);
-}
-
-.feed-item-time {
-  font-size: 12px;
-  color: var(--text-muted);
-  flex-shrink: 0;
-}
-
-.feed-item-message {
-  margin: 0;
-  font-size: 14px;
+  font-size: 0.8125rem;
   line-height: 1.5;
-  color: var(--text);
+  color: var(--text-muted);
 }
 
 @media (max-width: 480px) {
@@ -428,17 +386,13 @@
 /* ─── Projects ────────────────────────────────────────── */
 
 .section-projects {
-  padding: 1.35rem 0 2rem;
+  padding: 0 0 2rem;
   flex: 1;
-}
-
-.section-projects .section-label {
-  margin-bottom: 0.55rem;
 }
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.85rem;
 }
 
@@ -501,12 +455,6 @@
   color: var(--text-muted);
   line-height: 1.55;
   margin: 0;
-}
-
-@media (max-width: 900px) {
-  .projects-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 @media (max-width: 560px) {

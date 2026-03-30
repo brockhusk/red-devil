@@ -5,11 +5,16 @@
   --text-muted: #888;
   --text-secondary: #555;
   --text-heading: #111;
+  --text-primary: #1a1a1a;
+  --section-label-text: #1e7a56;
+  --currently-key: #555555;
   --border: #e8e8e5;
   --accent: #1a1a1a;
   --accent-hover: #333;
   --tag-bg: #f0efec;
   --input-bg: #fafaf8;
+  --composer-placeholder: #888888;
+  --composer-card-border: #c0c0c0;
   --composer-footer-divider: #e0e0e0;
   --composer-surface: #ffffff;
   --composer-send-bg: #1a1a1a;
@@ -21,6 +26,8 @@
   --hairline: 0.5px;
   --shell-max: 1120px;
   --shell-pad-x: 2rem;
+  /* Space from a section edge (or major block) to the next section kicker */
+  --section-start-pad: 1.35rem;
   --status-active-bg: #d1fae5;
   --status-active-fg: #065f46;
   --status-in-progress-bg: #fef3c7;
@@ -49,11 +56,16 @@
     --text-muted: #666;
     --text-secondary: #aeaea6;
     --text-heading: #eeeeea;
+    --text-primary: #eeeeea;
+    --section-label-text: #1e7a56;
+    --currently-key: #a3a39a;
     --border: #2a2a28;
     --accent: #eeeeea;
     --accent-hover: #fff;
     --tag-bg: #222220;
     --input-bg: #1a1a18;
+    --composer-placeholder: #888888;
+    --composer-card-border: #5a5a58;
     --composer-footer-divider: #3a3a38;
     --composer-surface: #1a1a18;
     --composer-send-bg: #0d0d0c;

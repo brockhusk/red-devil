@@ -1,15 +1,16 @@
-/** Rows shown in the hero “Currently” block (Building, Reading, Watching, Listening). */
+/** Rows shown in the hero “Currently” block. */
 export const currentlyRows = [
-  { key: 'Building', value: 'brockhusk.com — this site' },
-  { key: 'Reading', value: 'The Pragmatic Programmer — Hunt & Thomas' },
-  { key: 'Watching', value: 'Severance — Season 2' },
-  { key: 'Listening', value: 'Hovvdy — Heavy Lifter' },
+  { key: 'Building', value: 'Personal site on a home server' },
+  { key: 'Reading', value: 'Project Hail Mary' },
+  { key: 'Watching', value: 'Breaking Bad' },
+  { key: 'Listening', value: 'Sam Barber - Restless Mind' },
+  { key: 'Suffering', value: 'New York Jets fan' },
 ]
 
 export default function CurrentlyPanel() {
   return (
     <aside className="currently-panel" aria-label="Currently">
-      <p className="label-inbox currently-panel-label">currently</p>
+      <p className="section-kicker">Currently</p>
       <dl className="currently-dl">
         {currentlyRows.map(({ key, value }) => (
           <div key={key} className="currently-row">

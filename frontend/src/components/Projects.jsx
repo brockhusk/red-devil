@@ -2,30 +2,18 @@ const projects = [
   {
     id: 1,
     title: 'brockhusk.com',
-    description: 'This site. A personal hub built with Vite + React, plain CSS, no UI frameworks.',
+    description:
+      'Personal hub site built on a physical server in my house. React, FastAPI, PostgreSQL, Nginx, Datadog.',
     url: '#',
     status: 'Active',
   },
   {
     id: 2,
-    title: 'Logbook',
-    description: 'A minimal daily journaling app with local-first storage and a distraction-free editor.',
+    title: 'Red Devil Server',
+    description:
+      'Ubuntu 24.04 home server running this site. Building out the full stack and using it as a hands-on learning project.',
     url: '#',
-    status: 'In progress',
-  },
-  {
-    id: 3,
-    title: 'Timelapse CLI',
-    description: 'A command-line tool that captures periodic screenshots and stitches them into a timelapse video.',
-    url: '#',
-    status: 'Complete',
-  },
-  {
-    id: 4,
-    title: 'Readlist',
-    description: 'A lightweight reading tracker that syncs across devices via a small REST API.',
-    url: '#',
-    status: 'Archived',
+    status: 'In Progress',
   },
 ]
 
@@ -37,7 +25,7 @@ export default function Projects() {
   return (
     <section id="projects" className="section-projects">
       <div className="shell section-projects-inner">
-        <h2 className="label-upper section-label">Projects</h2>
+        <h2 className="section-kicker">Projects</h2>
         <div className="projects-grid">
           {projects.map((project) => (
             <a key={project.id} href={project.url} className="project-card">

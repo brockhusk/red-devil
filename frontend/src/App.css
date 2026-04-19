@@ -508,14 +508,74 @@
   padding: 0.95rem 1rem;
   border: var(--hairline) solid var(--border);
   border-radius: var(--radius);
-  text-decoration: none;
   background: var(--bg);
+  cursor: pointer;
   transition: border-color 0.15s, background 0.15s;
 }
 
 .project-card:hover {
   border-color: var(--text-muted);
   background: var(--bg-subtle);
+}
+
+.project-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.project-chevron {
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  transition: transform 0.2s ease;
+}
+
+.project-chevron--open {
+  transform: rotate(180deg);
+}
+
+.project-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: 100%;
+  padding-top: 0.25rem;
+  border-top: 1px solid var(--border);
+}
+
+.project-detail-text {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.project-stack-tag {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 99px;
+  line-height: 1.3;
+}
+
+.project-github {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1e7a56;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.project-github:hover {
+  color: var(--text-heading);
 }
 
 .project-badge {

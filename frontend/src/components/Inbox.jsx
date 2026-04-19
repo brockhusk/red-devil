@@ -2,6 +2,13 @@ import { useState, useEffect } from 'react'
 
 const INITIAL = { name: '', message: '' }
 
+function formatTimestamp(iso) {
+  const d = new Date(iso)
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    + ' · '
+    + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+}
+
 export default function Inbox() {
   const [form, setForm] = useState(INITIAL)
   const [submitted, setSubmitted] = useState(false)
@@ -118,6 +125,9 @@ export default function Inbox() {
                   <div key={msg.id} className="feed-message">
                     <p className="feed-message-name">{msg.name}</p>
                     <p className="feed-message-text">{msg.message}</p>
+                    <time className="feed-message-time" dateTime={msg.created_at}>
+                      {formatTimestamp(msg.created_at)}
+                    </time>
                   </div>
                 ))}
               </div>

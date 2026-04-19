@@ -433,6 +433,14 @@
   line-height: 1.55;
 }
 
+.feed-message-time {
+  display: block;
+  margin: 0.4rem 0 0;
+  font-size: 0.6875rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
 .feed-empty-state {
   box-sizing: border-box;
   width: 100%;

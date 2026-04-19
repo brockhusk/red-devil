@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react'
 
 const INITIAL = { name: '', message: '' }
 
-function formatTimestamp(iso) {
-  const d = new Date(iso)
-  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-    + ' · '
-    + d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })
+function getRelativeTime(dateString) {
+  const ms = Date.now() - new Date(dateString).getTime()
+  const minutes = Math.floor(ms / 60000)
+  if (minutes < 60) return `${Math.max(1, minutes)}m`
+  const hours = Math.floor(minutes / 60)
+  if (hours < 24) return `${hours}h`
+  return `${Math.floor(hours / 24)}d`
 }
 
 export default function Inbox() {
@@ -123,11 +125,13 @@ export default function Inbox() {
               <div className="feed-messages">
                 {messages.map((msg) => (
                   <div key={msg.id} className="feed-message">
-                    <p className="feed-message-name">{msg.name}</p>
+                    <div className="feed-message-header">
+                      <p className="feed-message-name">{msg.name}</p>
+                      <time className="feed-message-time" dateTime={msg.created_at}>
+                        {getRelativeTime(msg.created_at)}
+                      </time>
+                    </div>
                     <p className="feed-message-text">{msg.message}</p>
-                    <time className="feed-message-time" dateTime={msg.created_at}>
-                      {formatTimestamp(msg.created_at)}
-                    </time>
                   </div>
                 ))}
               </div>

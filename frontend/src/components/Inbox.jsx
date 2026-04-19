@@ -1,21 +1,52 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const INITIAL = { name: '', message: '' }
 
 export default function Inbox() {
   const [form, setForm] = useState(INITIAL)
   const [submitted, setSubmitted] = useState(false)
+  const [messages, setMessages] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchMessages()
+  }, [])
+
+  async function fetchMessages() {
+    try {
+      const res = await fetch('/api/inbox/recent')
+      const data = await res.json()
+      setMessages(data)
+    } catch (err) {
+      console.error('Failed to fetch messages:', err)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   function handleChange(e) {
     const { name, value } = e.target
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.message.trim()) return
-    setSubmitted(true)
-    setForm(INITIAL)
+
+    try {
+      const res = await fetch('/api/inbox', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: form.name, message: form.message }),
+      })
+      if (res.ok) {
+        setSubmitted(true)
+        setForm(INITIAL)
+        fetchMessages()
+      }
+    } catch (err) {
+      console.error('Failed to submit message:', err)
+    }
   }
 
   return (
@@ -75,9 +106,22 @@ export default function Inbox() {
 
           <div className="inbox-right">
             <p className="feed-subtitle">recent messages</p>
-            <div className="feed-empty-state" role="status">
-              <p>No messages yet. Be the first.</p>
-            </div>
+            {loading ? (
+              <p>Loading...</p>
+            ) : messages.length === 0 ? (
+              <div className="feed-empty-state" role="status">
+                <p>No messages yet. Be the first.</p>
+              </div>
+            ) : (
+              <div className="feed-messages">
+                {messages.map((msg) => (
+                  <div key={msg.id} className="feed-message">
+                    <p className="feed-message-name">{msg.name}</p>
+                    <p className="feed-message-text">{msg.message}</p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
         </div>

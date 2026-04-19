@@ -1,8 +1,31 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
+import databases
+import sqlalchemy
+
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+database = databases.Database(DATABASE_URL)
+
+metadata = sqlalchemy.MetaData()
+
+messages = sqlalchemy.Table(
+    "messages",
+    metadata,
+    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
+    sqlalchemy.Column("name", sqlalchemy.String(100)),
+    sqlalchemy.Column("message", sqlalchemy.Text),
+    sqlalchemy.Column("created_at", sqlalchemy.DateTime, default=datetime.utcnow),
+    sqlalchemy.Column("visible", sqlalchemy.Boolean, default=True),
+)
 
 app = FastAPI()
 
@@ -14,34 +37,43 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Temporary in-memory store (will be replaced with PostgreSQL)
-messages = []
+@app.on_event("startup")
+async def startup():
+    await database.connect()
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
 
 class Message(BaseModel):
     name: str
     message: str
 
 @app.get("/health")
-def health_check():
+async def health_check():
     return {"status": "ok"}
 
 @app.post("/inbox")
-def submit_message(msg: Message):
-    entry = {
-        "id": len(messages) + 1,
-        "name": msg.name,
-        "message": msg.message,
-        "created_at": datetime.utcnow().isoformat(),
-        "visible": True
-    }
-    messages.append(entry)
-    return {"status": "received", "id": entry["id"]}
+async def submit_message(msg: Message):
+    query = messages.insert().values(
+        name=msg.name,
+        message=msg.message,
+        created_at=datetime.utcnow(),
+        visible=True
+    )
+    last_id = await database.execute(query)
+    return {"status": "received", "id": last_id}
 
 @app.get("/inbox/recent")
-def get_recent():
-    visible = [m for m in messages if m["visible"]]
-    return visible[-5:]
+async def get_recent():
+    query = messages.select().where(
+        messages.c.visible == True
+    ).order_by(messages.c.created_at.desc()).limit(5)
+    results = await database.fetch_all(query)
+    return results
 
 @app.get("/inbox/all")
-def get_all():
-    return messages
+async def get_all():
+    query = messages.select().order_by(messages.c.created_at.desc())
+    results = await database.fetch_all(query)
+    return results

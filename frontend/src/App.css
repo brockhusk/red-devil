@@ -402,6 +402,37 @@
 
 /* Feed */
 
+.feed-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.feed-message {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  padding: 1rem 1.25rem;
+  border: 1px solid #e8e8e8;
+  border-radius: 12px;
+  background: #f9f9f9;
+}
+
+.feed-message-name {
+  margin: 0 0 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e7a56;
+  line-height: 1.3;
+}
+
+.feed-message-text {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
 .feed-empty-state {
   box-sizing: border-box;
   width: 100%;

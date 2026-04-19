@@ -396,7 +396,7 @@
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: var(--text-muted);
+  color: #555555;
   line-height: 1.2;
 }
 
@@ -437,14 +437,14 @@
 .feed-message-time {
   flex-shrink: 0;
   font-size: 0.6875rem;
-  color: var(--text-muted);
+  color: #555555;
   line-height: 1.3;
 }
 
 .feed-message-text {
   margin: 0;
   font-size: 0.75rem;
-  color: var(--text-primary);
+  color: #2d2d2d;
   line-height: 1.55;
 }
 
@@ -464,7 +464,7 @@
   margin: 0;
   font-size: 0.8125rem;
   line-height: 1.5;
-  color: var(--text-muted);
+  color: #555555;
 }
 
 @media (max-width: 768px) {

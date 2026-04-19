@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 const INITIAL = { name: '', message: '' }
 
 function getRelativeTime(dateString) {
-  const ms = Date.now() - new Date(dateString).getTime()
+  const ms = Date.now() - new Date(dateString + 'Z').getTime()
   const minutes = Math.floor(ms / 60000)
   if (minutes < 60) return `${Math.max(1, minutes)}m`
   const hours = Math.floor(minutes / 60)

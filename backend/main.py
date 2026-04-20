@@ -5,6 +5,19 @@ from datetime import datetime
 from typing import Optional
 import databases
 import sqlalchemy
+import logging
+from pythonjsonlogger import jsonlogger
+
+# Configure JSON logging for Datadog
+logger = logging.getLogger()
+handler = logging.StreamHandler()
+formatter = jsonlogger.JsonFormatter(
+    fmt='%(asctime)s %(levelname)s %(name)s %(message)s',
+    datefmt='%Y-%m-%dT%H:%M:%S'
+)
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+logger.setLevel(logging.INFO)
 
 import os
 from dotenv import load_dotenv

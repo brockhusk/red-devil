@@ -18,6 +18,7 @@ formatter = jsonlogger.JsonFormatter(
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
+app_logger = logging.getLogger("reddevil")
 
 import os
 from dotenv import load_dotenv
@@ -64,6 +65,7 @@ class Message(BaseModel):
 
 @app.get("/health")
 async def health_check():
+    app_logger.info("health check called")
     return {"status": "ok"}
 
 @app.post("/inbox")
@@ -75,10 +77,12 @@ async def submit_message(msg: Message):
         visible=True
     )
     last_id = await database.execute(query)
+    app_logger.info("inbox message stored", extra={"id": last_id, "name": msg.name})
     return {"status": "received", "id": last_id}
 
 @app.get("/inbox/recent")
 async def get_recent():
+    app_logger.info("inbox recent requested")
     query = messages.select().where(
         messages.c.visible == True
     ).order_by(messages.c.created_at.desc()).limit(5)

@@ -77,8 +77,11 @@ async def submit_message(msg: Message):
         visible=True
     )
     last_id = await database.execute(query)
-    app_logger.info("inbox message stored", extra={"id": last_id, "name": msg.name})
+    
+    app_logger.info("inbox message stored", extra={"message_id": last_id, "sender_name": msg.name})
     return {"status": "received", "id": last_id}
+
+    
 
 @app.get("/inbox/recent")
 async def get_recent():

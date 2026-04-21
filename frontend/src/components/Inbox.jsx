@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 
 const INITIAL = { name: '', message: '' }
 const RECENT_LIMIT = 5
@@ -15,19 +15,20 @@ function getRelativeTime(dateString) {
 export default function Inbox() {
   const [form, setForm] = useState(INITIAL)
   const [submitted, setSubmitted] = useState(false)
-  const [messages, setMessages] = useState([])
+  const [recentMessages, setRecentMessages] = useState([])
+  const [allMessages, setAllMessages] = useState(null)
   const [loading, setLoading] = useState(true)
   const [showingAll, setShowingAll] = useState(false)
 
   useEffect(() => {
-    fetchMessages()
+    fetchRecent()
   }, [])
 
-  async function fetchMessages() {
+  async function fetchRecent() {
     try {
       const res = await fetch('/api/inbox/recent')
       const data = await res.json()
-      setMessages(data)
+      setRecentMessages(data)
     } catch (err) {
       console.error('Failed to fetch messages:', err)
     } finally {
@@ -36,14 +37,22 @@ export default function Inbox() {
   }
 
   async function loadAllMessages() {
+    if (allMessages) {
+      if (allMessages.length > RECENT_LIMIT) setShowingAll(true)
+      return
+    }
     try {
       const res = await fetch('/api/inbox/all')
       const data = await res.json()
-      setMessages(data)
-      setShowingAll(true)
+      setAllMessages(data)
+      if (data.length > RECENT_LIMIT) setShowingAll(true)
     } catch (err) {
       console.error('Failed to fetch all messages:', err)
     }
+  }
+
+  function collapseMessages() {
+    setShowingAll(false)
   }
 
   function handleChange(e) {
@@ -64,12 +73,19 @@ export default function Inbox() {
       if (res.ok) {
         setSubmitted(true)
         setForm(INITIAL)
-        fetchMessages()
+        setAllMessages(null)
+        setShowingAll(false)
+        fetchRecent()
       }
     } catch (err) {
       console.error('Failed to submit message:', err)
     }
   }
+
+  const displayed = showingAll && allMessages ? allMessages : recentMessages
+  const hasMoreToShow =
+    recentMessages.length >= RECENT_LIMIT &&
+    (!allMessages || allMessages.length > RECENT_LIMIT)
 
   return (
     <section id="inbox" className="section-inbox">
@@ -130,26 +146,48 @@ export default function Inbox() {
             <p className="feed-subtitle">recent messages</p>
             {loading ? (
               <p>Loading...</p>
-            ) : messages.length === 0 ? (
+            ) : displayed.length === 0 ? (
               <div className="feed-empty-state" role="status">
                 <p>No messages yet. Be the first.</p>
               </div>
             ) : (
               <div className="feed-messages">
-                {messages.map((msg) => (
-                  <div key={msg.id} className="feed-message">
-                    <div className="feed-message-header">
-                      <p className="feed-message-name">{msg.name}</p>
-                      <time className="feed-message-time" dateTime={msg.created_at}>
-                        {getRelativeTime(msg.created_at)}
-                      </time>
+                {displayed.map((msg, idx) => (
+                  <Fragment key={msg.id}>
+                    {showingAll && idx === RECENT_LIMIT && (
+                      <div className="feed-divider" role="separator">
+                        <span>older</span>
+                      </div>
+                    )}
+                    <div
+                      className={
+                        showingAll && idx >= RECENT_LIMIT
+                          ? 'feed-message feed-message--expanded'
+                          : 'feed-message'
+                      }
+                      style={
+                        showingAll && idx >= RECENT_LIMIT
+                          ? { animationDelay: `${(idx - RECENT_LIMIT) * 0.03}s` }
+                          : undefined
+                      }
+                    >
+                      <div className="feed-message-header">
+                        <p className="feed-message-name">{msg.name}</p>
+                        <time className="feed-message-time" dateTime={msg.created_at}>
+                          {getRelativeTime(msg.created_at)}
+                        </time>
+                      </div>
+                      <p className="feed-message-text">{msg.message}</p>
                     </div>
-                    <p className="feed-message-text">{msg.message}</p>
-                  </div>
+                  </Fragment>
                 ))}
-                {!showingAll && messages.length >= RECENT_LIMIT && (
-                  <button type="button" className="feed-load-more" onClick={loadAllMessages}>
-                    Load more
+                {hasMoreToShow && (
+                  <button
+                    type="button"
+                    className="feed-load-more"
+                    onClick={showingAll ? collapseMessages : loadAllMessages}
+                  >
+                    {showingAll ? 'Show less' : 'Load more'}
                   </button>
                 )}
               </div>

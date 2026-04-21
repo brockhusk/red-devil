@@ -6,7 +6,7 @@
   --text-secondary: #555;
   --text-heading: #111;
   --text-primary: #1a1a1a;
-  --section-label-text: #1e7a56;
+  --section-label-text: #991b1b;
   --currently-key: #555555;
   --border: #e8e8e5;
   --accent: #1a1a1a;
@@ -36,9 +36,9 @@
   --status-archived-bg: var(--tag-bg);
   --status-archived-fg: var(--text-muted);
 
-  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-family: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.5;
   color: var(--text);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -62,7 +62,7 @@
     --text-secondary: #aeaea6;
     --text-heading: #eeeeea;
     --text-primary: #eeeeea;
-    --section-label-text: #1e7a56;
+    --section-label-text: #991b1b;
     --currently-key: #a3a39a;
     --border: #2a2a28;
     --accent: #eeeeea;
@@ -119,9 +119,10 @@ body {
 
 h1, h2, h3 {
   color: var(--text-heading);
-  font-weight: 600;
+  font-weight: 500;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
 }
 
 p {

@@ -77,7 +77,7 @@ export default function Projects() {
                           key={tech}
                           className="project-stack-tag"
                           style={{
-                            background: (brandColors[tech] || { bg: '#1E7A56' }).bg,
+                            background: (brandColors[tech] || { bg: '#991b1b' }).bg,
                             color: (brandColors[tech] || { fg: '#fff' }).fg,
                           }}
                         >

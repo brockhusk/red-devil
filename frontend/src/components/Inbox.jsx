@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 const INITIAL = { name: '', message: '' }
+const RECENT_LIMIT = 5
 
 function getRelativeTime(dateString) {
   const ms = Date.now() - new Date(dateString + 'Z').getTime()
@@ -16,6 +17,7 @@ export default function Inbox() {
   const [submitted, setSubmitted] = useState(false)
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(true)
+  const [showingAll, setShowingAll] = useState(false)
 
   useEffect(() => {
     fetchMessages()
@@ -30,6 +32,17 @@ export default function Inbox() {
       console.error('Failed to fetch messages:', err)
     } finally {
       setLoading(false)
+    }
+  }
+
+  async function loadAllMessages() {
+    try {
+      const res = await fetch('/api/inbox/all')
+      const data = await res.json()
+      setMessages(data)
+      setShowingAll(true)
+    } catch (err) {
+      console.error('Failed to fetch all messages:', err)
     }
   }
 
@@ -134,6 +147,11 @@ export default function Inbox() {
                     <p className="feed-message-text">{msg.message}</p>
                   </div>
                 ))}
+                {!showingAll && messages.length >= RECENT_LIMIT && (
+                  <button type="button" className="feed-load-more" onClick={loadAllMessages}>
+                    Load more
+                  </button>
+                )}
               </div>
             )}
           </div>

@@ -7,7 +7,7 @@ export default function Hero() {
         <div className="hero-inner">
           <div className="hero-intro">
             <div className="hero-identity">
-              <div className="hero-avatar" aria-hidden="true">BH</div>
+              <img src="/headshot.png" alt="Brock Huskisson" className="hero-photo" />
               <div className="hero-text">
                 <h1 className="hero-name">Brock Huskisson</h1>
                 <p className="hero-tagline">

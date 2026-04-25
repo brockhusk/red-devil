@@ -94,6 +94,8 @@ async def get_recent():
 
 @app.get("/inbox/all")
 async def get_all():
-    query = messages.select().order_by(messages.c.created_at.desc())
+    query = messages.select().where(
+        messages.c.visible == True
+    ).order_by(messages.c.created_at.desc())
     results = await database.fetch_all(query)
     return results

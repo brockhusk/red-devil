@@ -25,6 +25,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import auth
+
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 database = databases.Database(DATABASE_URL)
@@ -51,9 +53,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth.router)
+
 @app.on_event("startup")
 async def startup():
     await database.connect()
+    if not auth.config_ready():
+        # Warn loudly rather than crash. A missing admin secret should never
+        # take the public site down.
+        app_logger.warning("admin auth disabled: ADMIN_PASSWORD_HASH or JWT_SECRET is unset")
 
 @app.on_event("shutdown")
 async def shutdown():

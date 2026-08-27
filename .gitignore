@@ -9,3 +9,4 @@ build/
 
 # Mac
 .DS_Store
+dev.db

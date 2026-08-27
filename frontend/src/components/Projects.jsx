@@ -5,23 +5,23 @@ const projects = [
     id: 1,
     title: 'brockhusk.com',
     description:
-      'Personal hub site built on a physical server in my house. React, FastAPI, PostgreSQL, Nginx, Datadog.',
+      'Personal hub site. Started on a server in my house, now running on a DigitalOcean Droplet behind Cloudflare. React, FastAPI, PostgreSQL, Nginx, Datadog.',
     status: 'Active',
     github: 'https://github.com/brockhusk/red-devil',
-    stack: ['React', 'FastAPI', 'PostgreSQL', 'Nginx', 'Cloudflare', 'Datadog'],
+    stack: ['React', 'FastAPI', 'PostgreSQL', 'Nginx', 'DigitalOcean', 'Cloudflare', 'Datadog'],
     detail:
-      'Full stack personal hub site built on a physical home server. Covers the entire lifecycle from Linux server setup to React frontend, FastAPI backend, PostgreSQL database, and production deployment with Nginx and Cloudflare.',
+      'Full stack personal hub site covering the entire lifecycle from Linux server setup to React frontend, FastAPI backend, and PostgreSQL database. Originally self hosted on an Ubuntu box at home, then migrated to a DigitalOcean Droplet behind Cloudflare. Served by Nginx and instrumented end to end with Datadog APM, RUM, and trace correlated logs.',
   },
   {
     id: 2,
     title: 'Red Devil Server',
     description:
-      'Ubuntu 24.04 home server running this site. Building out the full stack and using it as a hands-on learning project.',
-    status: 'In Progress',
+      'Ubuntu 24.04 home server that originally hosted this site. Retired from production after the move to the cloud, and currently between jobs.',
+    status: 'Complete',
     github: 'https://github.com/brockhusk/red-devil',
     stack: ['Ubuntu', 'Nginx', 'PostgreSQL', 'Datadog'],
     detail:
-      'Ubuntu 24.04 LTS home server running brockhusk.com end to end. Built as a hands-on learning project covering Linux system administration, networking, server configuration, and Datadog monitoring.',
+      'Ubuntu 24.04 LTS home server that hosted brockhusk.com end to end before the site moved to a DigitalOcean Droplet. Built as a hands-on learning project covering Linux system administration, networking, DNS and port forwarding, server configuration, and Datadog monitoring. The hardware is still around and waiting on its next assignment.',
   },
 ]
 
@@ -31,6 +31,7 @@ const brandColors = {
   PostgreSQL: { bg: '#336791', fg: '#fff' },
   Nginx:      { bg: '#009900', fg: '#fff' },
   Cloudflare: { bg: '#F6821F', fg: '#fff' },
+  DigitalOcean: { bg: '#0080FF', fg: '#fff' },
   Datadog:    { bg: '#632CA6', fg: '#fff' },
   Ubuntu:     { bg: '#E95420', fg: '#fff' },
   Python:     { bg: '#3776AB', fg: '#fff' },

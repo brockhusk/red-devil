@@ -3,8 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
-import databases
-import sqlalchemy
 import logging
 from pythonjsonlogger import jsonlogger
 
@@ -20,28 +18,12 @@ logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 app_logger = logging.getLogger("reddevil")
 
-import os
-from dotenv import load_dotenv
+# Connection and table definitions live in db.py so the admin routers can share
+# them without importing main.py, which would be circular.
+from db import database, messages, metadata
 
-load_dotenv()
-
+import admin_messages
 import auth
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-database = databases.Database(DATABASE_URL)
-
-metadata = sqlalchemy.MetaData()
-
-messages = sqlalchemy.Table(
-    "messages",
-    metadata,
-    sqlalchemy.Column("id", sqlalchemy.Integer, primary_key=True),
-    sqlalchemy.Column("name", sqlalchemy.String(100)),
-    sqlalchemy.Column("message", sqlalchemy.Text),
-    sqlalchemy.Column("created_at", sqlalchemy.DateTime, default=datetime.utcnow),
-    sqlalchemy.Column("visible", sqlalchemy.Boolean, default=True),
-)
 
 app = FastAPI()
 
@@ -54,6 +36,7 @@ app.add_middleware(
 )
 
 app.include_router(auth.router)
+app.include_router(admin_messages.router)
 
 @app.on_event("startup")
 async def startup():
@@ -85,11 +68,9 @@ async def submit_message(msg: Message):
         visible=True
     )
     last_id = await database.execute(query)
-    
+
     app_logger.info("inbox message stored", extra={"message_id": last_id, "sender_name": msg.name})
     return {"status": "received", "id": last_id}
-
-    
 
 @app.get("/inbox/recent")
 async def get_recent():
